@@ -1,0 +1,29 @@
+#title{
+    margin: 0px;
+    text-align: center;
+    background-color: rgb(41, 118, 160);
+    color:  rgb(32, 0, 83);
+}
+#title1{
+    text-align: center;
+    color:  rgb(32, 0, 83);
+}
+h2{
+    margin: 0px;
+    padding: 10px;
+}
+body {
+    font-family: Arial;
+    font-size: 20pt;
+    padding: 0px;
+    margin: 0px;
+    background-color: rgb(212, 239, 250);
+  }
+  #info{
+    margin-left: 15%;
+    margin-right: 15%;
+    color:  rgb(32, 0, 83);
+    border-color: rgb(76, 115, 221);
+    border-style: groove;
+    text-align: center;
+}
