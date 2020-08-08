@@ -1,0 +1,38 @@
+
+body {
+    font-family: Arial;
+    font-size: 20pt;
+    padding: 0px;
+    margin: 0px;
+    background-color: rgb(212, 239, 250);
+  }
+#title{
+    margin: 0px;
+    text-align: center;
+    background-color: rgb(41, 118, 160);
+    color:  rgb(32, 0, 83);
+}
+h2{
+    margin: 0px;
+    padding: 10px;
+}
+#inputCol{
+    width: 25%;
+    height: 100%;
+    border-right: 2px solid rgb(116, 116, 116);
+    border-collapse: collapse;
+    position: fixed;
+}
+#outputCol{
+    width: 75%;
+    left: 25%;
+    height: 100%;
+
+    position: fixed;
+}
+.fixArea{
+    padding-left:20px;
+}
+#welcome{
+    font-weight: 700;
+}
