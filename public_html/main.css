@@ -27,13 +27,11 @@ h2{
     width: 75%;
     left: 25%;
     height: 100%;
-
     position: fixed;
 }
 .fixArea{
     padding-left:20px;
 }
-
 
 
 .wrapper {
@@ -43,9 +41,6 @@ h2{
     margin: 0;
     background-color: rgb(140, 189, 201);
 }
-
-
-
 .controls {
     height: 100px;
     margin: 5px 0px;
@@ -63,7 +58,7 @@ h2{
 }
 
 .items {
-    height: 30px;
+    height: 40px;
 }
 #colorStyle {
     width: 50px;
