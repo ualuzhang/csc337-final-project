@@ -7,20 +7,32 @@
 body {
   font-family: Arial;
   font-size: 20pt;
-  padding: 20px;
-  background-color: rgb(152, 215, 240);
+  padding: 0px;
+  margin: 0px;
+  background-color: rgb(212, 239, 250);
 }
-
+#title{
+  margin: 0px;
+    text-align: center;
+    background-color: rgb(41, 118, 160);
+    color:  rgb(32, 0, 83);
+}
 button {
   font-size: 20pt;
 }
-
+#page{
+  text-align: center;
+}
 input {
   font-size: 20pt;
 }
+h2{
+  margin: 0px;
+  padding: 10px;
+}
 
 #page{
-  color: rgb(11, 91, 167);
+  color:  rgb(32, 0, 83);
 }
 #warningOutput{
   color: red;
