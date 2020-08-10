@@ -13,7 +13,27 @@ app.use(parser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 const db = mongoose.connection;
-const mongoDBURL = 'mongodb://127.0.0.1/Ostaa';
+const mongoDBURL = 'mongodb://127.0.0.1/final';
+
+var Schema = mongoose.Schema;
+var UserSchema = new Schema({
+    username: String,
+    salt: String,
+    hash: String
+});
+var User = mongoose.model('User', UserSchema );
+
+var GroupSchema = new Schema ({
+    members: [String],
+    message: [{type: Schema.Types.ObjectId, ref: 'Msg'}]
+});
+
+var MsgSchema = new Schema ({
+    message: String,
+    group: {type: Schema.Types.ObjectId, ref: 'Group'},
+    from: {type: Schema.Types.ObjectId, ref: 'User'},
+    to: {type: Schema.Types.ObjectId, ref: 'User'}
+});
 
 function authenticate(req, res, next) {
     console.log(req.cookies);
@@ -37,16 +57,6 @@ mongoose.connect(mongoDBURL, { useNewUrlParser: true });
 db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 
 sessionKeys = {};
-
-var Schema = mongoose.Schema;
-
-var​ ​UserSchema​ ​=​ ​new​ ​Schema​({
-    username​: ​String​,
-    ​salt​: ​String​,
-    ​hash​: ​String​,
-    ​// other user's setting like font, background color 
-});
-var User = mongoose.model('User', UserSchema );
 
 app.get('/login/:username/:password', (req, res) => {
     let u = req.params.username;
@@ -97,7 +107,7 @@ app.post('/add/user/', (req, res) =>{
 });
 
 app.post('/add/message', (req, res) => {
-
+    
 });
 
 app.get('/testcookies', (req, res)=>{
