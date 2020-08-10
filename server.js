@@ -2,8 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const parser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const crypto = require ('crypto');
 
 const port = 3000;
+const iterations = 1000;
 
 const app = express();
 app.use(parser.json());
@@ -48,13 +50,23 @@ var User = mongoose.model('User', UserSchema );
 
 app.get('/login/:username/:password', (req, res) => {
     let u = req.params.username;
-    let p = req.params.password;
+    
     Account.find({username : u, password: p}).exec(function(error, results) {
         if (results.length == 1) {
-            let sessionKey = Math.floor(Math.random() * 1000);
-            sessionKeys[u] = [sessionKey, Date.now()];
-            res.cookie("login", {username: u, key:sessionKey}, {maxAge: 20000});
-            res.send('OK');
+            let password = req.params.password;
+            var salt = results[0].salt;
+            crypto.pbkdf2(password, salt, iterations, 64, 'sha512', (err, hash) => {
+                if(err) throw err;
+                let hStr  = hash.toString('base64');
+                if(results[0].hash == hStr) {
+                    let sessionKey = Math.floor(Math.random() * 1000);
+                    sessionKeys[u] = [sessionKey, Date.now()];
+                    res.cookie("login", {username: u, key:sessionKey}, {maxAge: 20000});
+                    res.send('OK');
+                } else {
+                    res.send('There was an issue logging in, please try again');
+                }
+            });
         } else {
             res.send('BAD');
         }
@@ -82,6 +94,10 @@ app.post('/add/user/', (req, res) =>{
             res.end('user added!!');
         }
     });
+});
+
+app.post('/add/message', (req, res) => {
+
 });
 
 app.get('/testcookies', (req, res)=>{
