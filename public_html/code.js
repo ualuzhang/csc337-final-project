@@ -19,7 +19,7 @@ function login() {
       if (httpRequest.status === 200) {
         if (httpRequest.responseText == 'BAD') {
         } else {
-          let url = '/home.html';
+          let url = '/main.html';
           localStorage.setItem('user', u);
           window.location = url;
         }

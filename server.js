@@ -20,6 +20,7 @@ var UserSchema = new Schema({
     username: String,
     salt: String,
     hash: String
+    // color: String
 });
 var User = mongoose.model('User', UserSchema );
 
@@ -59,9 +60,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 sessionKeys = {};
 
 app.get('/login/:username/:password', (req, res) => {
-    let u = req.params.username;
-    
-    Account.find({username : u, password: p}).exec(function(error, results) {
+    var u = req.params.username;
+    User.find({username : u}).exec(function(error, results) {
         if (results.length == 1) {
             let password = req.params.password;
             var salt = results[0].salt;
@@ -102,6 +102,29 @@ app.post('/add/user/', (req, res) =>{
             var user = new User(obj);
             user.save(function (err) { if (err) console.log('add user fail'); });
             res.end('user added!!');
+        }
+    });
+});
+
+app.get('/create/:username/:password/:fav', (req, res) => {
+    var u = req.params.username;
+    var p = req.params.password;
+    var f = req.params.fav;
+
+    console.log(u + '--------------');
+
+    User.find({username : u}).exec(function(error, results) {
+        if (results.length == 0) {
+            var salt = crypto.randomBytes(64).toString('base64');
+            crypto.pbkdf2(p, salt, iterations, 64, 'sha512', (err, hash) => {
+                if(err) throw err;
+                let hashStr = hash.toString('base64');
+                var user = new User({'username': u, 'salt': salt, 'hash': hashStr});
+                user.save(function (err) {if(err) console.log(err); });
+                res.send('User added!');
+            });
+        } else {
+            res.send('Username already taken');
         }
     });
 });
