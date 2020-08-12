@@ -106,10 +106,9 @@ app.post('/add/user/', (req, res) =>{
     });
 });
 
-app.get('/create/:username/:password/:fav', (req, res) => {
+app.get('/create/:username/:password', (req, res) => {
     var u = req.params.username;
     var p = req.params.password;
-    var f = req.params.fav;
 
     console.log(u + '--------------');
 

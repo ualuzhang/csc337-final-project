@@ -50,9 +50,8 @@ function createAccount() {
 
   let u = document.getElementById('username').value;
   let p = document.getElementById('password').value;
-  let f = document.getElementById('fav').value;
 
-  httpRequest.open('GET', '/create/' + u + '/' + p + '/' + f, true);
+  httpRequest.open('GET', '/create/' + u + '/' + p, true);
   httpRequest.send();
 }
 
