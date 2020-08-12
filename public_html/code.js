@@ -54,4 +54,6 @@ function createAccount() {
   httpRequest.open('GET', '/create/' + u + '/' + p, true);
   httpRequest.send();
 }
-
+function createGroup(){
+  window.location = '/createGroup.html';
+}
