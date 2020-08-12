@@ -28,9 +28,11 @@ var UserSchema = new Schema({
 var User = mongoose.model('User', UserSchema );
 
 var GroupSchema = new Schema ({
-    members: [String],
-    message: [{type: Schema.Types.ObjectId, ref: 'Msg'}]
+    name: String,
+    members: [{type: Schema.Types.ObjectId, ref: 'User'}]
+    // message: [{type: Schema.Types.ObjectId, ref: 'Msg'}]
 });
+var Group = mongoose.model('Group', GroupSchema);
 
 var MsgSchema = new Schema ({
     message: String,
@@ -131,7 +133,28 @@ app.get('/create/:username/:password', (req, res) => {
         }
     });
 });
-
+app.get('/test/:users', (req, res) => {
+    res.send(req.params.users.split('+'));
+});
+app.get('/createGroup/:users/:name', (req, res) => {
+    var n = req.params.name;
+    var g = new Group({name: n, members: []});
+    g.save(function (err) {if (err) console.log(err); });
+    var userArr = req.params.users.split('+');
+    console.log(userArr + '========');
+    for (i in userArr) {
+        User.find({username: userArr[i]}).exec(function (err, results){
+            if(err) throw err;
+            Group.find({name: n}).exec(function (err1, rs){
+                if(err1) throw err1;
+                rs[0].members.push(results[0]._id);
+                rs[0].save(function (err2) {if (err2) console.log(err2); });
+            });
+            console.log(results[0]._id);
+        });
+    }
+    res.send('group created');
+});
 app.post('/add/message', (req, res) => {
     
 });
@@ -175,22 +198,5 @@ io.sockets.on('connection', function(socket) {
         socket.broadcast.emit('newImg', socket.nickname, imgData, color);
     });
 });
-
-
-
-
-    
-
-// function updateSessions() {
-//     console.log('session update function');
-//     let now = Date.now();
-//     for (e in sessionKeys) {
-//         if (sessionKeys[e][1] < (now - 20000)) {
-//             delete sessionKeys[e];
-//         }
-//     }
-// }  
-// setInterval(updateSessions, 2000);
-
 server.listen(port, () => 
     console.log(`App listening at http://localhost:${port}`));
